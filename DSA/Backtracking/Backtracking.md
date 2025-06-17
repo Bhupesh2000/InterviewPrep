@@ -124,3 +124,13 @@ void backtrack(State current) {
     }
 }
 
+
+Recursion v/s Backtracking
+
+| Aspect                  | Recursion              | Backtracking                      |
+| ----------------------- | ---------------------- | --------------------------------- |
+| Style                   | Blind exploration      | Informed exploration              |
+| Performance (avg case)  | Slower                 | Faster with pruning               |
+| Code clarity            | Generic tree traversal | Structured, step-by-step choices  |
+| Use for constraints     | Hard to manage         | Easy to express                   |
+| Complexity (worst case) | Same as backtracking   | Same, but better avg. performance |
