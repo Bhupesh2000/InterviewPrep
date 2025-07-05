@@ -64,4 +64,6 @@ public:
     }
 };
 
-TC - O(N), SC - O(2N) - ans array + deque
+TC - O(N), SC - O(N + k) - ans array + deque
+
+Can also be done using an ordered_hashmap
