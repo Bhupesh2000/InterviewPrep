@@ -169,3 +169,74 @@ void LevelOrderRecursive(TreeNode* root) {
         printLevel(root, i);
     }
 }
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Post, pre and inorder traversal in 1 go
+Process : each stack entry will be a pair<TreeNode*, num(int)>
+the num can be 1, 2, and 3.
+
+Initially for each node num pushed will be 1.
+If at the top,
+num == 1, 
+    push the TreeNode* to preOrder // because root is at position 1
+    push again TreeNode* with num ++;
+    if(top -> left) push pair{top -> left, 1}, left because after root, next is left
+
+num == 2
+    push the TreeNode* to inorder // because root is at position 2
+    push again TreeNode* with num ++;
+    if(top -> right) push pair{top -> right, 1}, left because after root, next is right
+
+num == 3
+    push the TreeNode* to postorder // because root is at position 3
+    just pop
+
+
+vector<vector<int>> TreeTraversals(TreeNode* root){
+    vector<int> preOrder;
+    vector<int> inOrder;
+    vector<int> postOrder;
+    vector<vector<int>> ans;
+    
+    if(!root){
+        ans.push_back(preOrder);
+        ans.push_back(inOrder);
+        ans.push_back(postOrder);
+        return ans;
+    }
+    
+    stack<pair<TreeNode*, int>> st;
+    st.push({root, 1});
+    
+    while(!st.empty()){
+        pair<TreeNode*, int> p = st.top();
+        st.pop();
+        
+        TreeNode* node = p.first;
+        int num = p.second;
+        
+        if(num == 1){
+            preOrder.push_back(node -> val);
+            num ++;
+            st.push({node, num});
+            if(node -> left) st.push({node -> left, 1});
+        }
+        else if(num == 2){
+            inOrder.push_back(node -> val);
+            num ++;
+            st.push({node, num});
+            if(node -> right) st.push({node -> right, 1});
+        }
+        else{
+            postOrder.push_back(node -> val);
+        }
+    }
+    
+    ans.push_back(preOrder);
+    ans.push_back(inOrder);
+    ans.push_back(postOrder);
+    return ans;
+}
+
+TC - O(3 * N), SC - O(4 * N) -> 3 vectors, 1 stack
