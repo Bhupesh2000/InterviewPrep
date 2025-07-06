@@ -97,7 +97,7 @@ void PostOrderIterative1(TreeNode* root){
     }
     
     while(!st2.empty()){
-        cout << st2.top() << " ";
+        cout << st2.top() -> val << " ";
         st2.pop();
     }
 }
@@ -122,5 +122,50 @@ void PostOrderIterative2(TreeNode* root) {
                 st.pop();
             }
         }
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+LevelOrder Traversal(level 1 -> level 2 -> .... -> level n)
+
+// Iterative Method
+void LevelOrderTraversalIterative(TreeNode* root){
+    if(!root) return NULL;
+    queue<TreeNode*> q;
+    q.push(root);
+    
+    while(!q.empty()){
+        TreeNode* front = q.front();
+        q.pop();
+        cout << front -> val << " ";
+        if(front -> left) q.push(front -> left);
+        if(front.right) q.push(front -> right);
+    }
+}
+
+// Recursive Method -> TC - O(n^2), SC - O(h), O(N) in worst case, skewed tree
+// Step 1: Get height of the tree
+int getHeight(TreeNode* root) {
+    if (!root) return 0;
+    return 1 + max(getHeight(root->left), getHeight(root->right));
+}
+
+// Step 2: Print nodes at a given level
+void printLevel(TreeNode* root, int level) {
+    if (!root) return;
+    if (level == 1) {
+        cout << root->val << " ";
+    } else {
+        printLevel(root->left, level - 1);
+        printLevel(root->right, level - 1);
+    }
+}
+
+// Step 3: Level Order Traversal (Recursive)
+void LevelOrderRecursive(TreeNode* root) {
+    int height = getHeight(root);
+    for (int i = 1; i <= height; ++i) {
+        printLevel(root, i);
     }
 }
