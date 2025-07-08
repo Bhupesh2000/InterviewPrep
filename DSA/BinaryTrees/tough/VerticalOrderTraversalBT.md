@@ -76,3 +76,5 @@ public:
         return ans;
     }
 };
+
+TC - O(NlogN), SC - O(N)
