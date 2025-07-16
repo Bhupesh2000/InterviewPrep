@@ -59,3 +59,59 @@ public:
 
 TC - O(Nlogk) -> for pushing in maxheap + O(k) -> for storing in maxheap
 SC - O(k) -> for heap + O(k) -> for res vector
+
+Approach 3 - Using quick select
+To solve K Closest Points to Origin using QuickSelect (a variant of QuickSort), you avoid sorting the entire array and instead partition the array such that the first k elements are the k closest points.
+
+class Solution {
+public:
+    int dist(const vector<int>& point) {
+        return point[0]*point[0] + point[1]*point[1];
+    }
+
+    int partition(vector<vector<int>>& points, int left, int right) {
+        int pivotDist = dist(points[right]);
+        int i = left;
+        for (int j = left; j < right; ++j) {
+            if (dist(points[j]) <= pivotDist) {
+                swap(points[i], points[j]);
+                i++;
+            }
+        }
+        swap(points[i], points[right]);
+        return i;
+    }
+
+    void quickSelect(vector<vector<int>>& points, int left, int right, int k) {
+        if (left >= right) return;
+
+        int pivotIdx = partition(points, left, right);
+
+        if (pivotIdx == k) return;
+        else if (pivotIdx < k) quickSelect(points, pivotIdx + 1, right, k);
+        else quickSelect(points, left, pivotIdx - 1, k);
+    }
+
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        quickSelect(points, 0, points.size() - 1, k);
+        return vector<vector<int>>(points.begin(), points.begin() + k);
+    }
+};
+
+📌 Time Complexity:
+Average case: O(n)
+Worst case: O(n²) (rare if random pivot or median-of-three used)
+Space: O(1) (in-place)
+
+TC explanation
+QuickSelect, just recurses into one half:
+T(N) = T(N/2) + O(N)
+
+T(N) = T(N/2) + cN
+T(N/2) = T(N/4) + c(N/2)
+T(N/4) = T(N/8) + c(N/4)
+...
+
+T(N) = cN + c(N/2) + c(N/4) + c(N/8) + …
+T(N) = cN(1 + 1/2 + 1/4 + 1/8 + ....) <= cN * 2
+T(N) = O(N)
