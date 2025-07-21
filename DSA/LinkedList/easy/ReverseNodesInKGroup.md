@@ -22,6 +22,10 @@ The number of nodes in the list is n.
 Follow-up: Can you solve the problem in O(1) extra memory space?
 */
 
+Approach 1 - Using an extra vector
+TC - O(N), SC - O(N)
+
+Approach 2 -
 class Solution {
     void reverseList(ListNode* head) {
         if(!head || !head -> next) return;
@@ -65,3 +69,5 @@ public:
         return head;
     }
 };
+
+TC - O(N), SC - O(1)
