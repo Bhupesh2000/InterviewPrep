@@ -50,4 +50,6 @@ Operators -
     ~(5) -> -6
     ~(-6) -> 5
 
+TC of all the operators will be O(1) and will be extremely fast, because a computer performs bit wise operations very fast
+
 --------------------------------------------------------------------------------------------------------------------------------------------
