@@ -87,7 +87,7 @@ TC - O(2 * n), SC - O(n)
 
 --------------------------------------------------------------------------------------------------------------------------------------------
 
-Approach 4 - using a hashmap(1 pass)
+Approach 5 - using a hashmap(1 pass)
 class Solution {
 public:
     int countTriplets(vector<int>& arr) {
