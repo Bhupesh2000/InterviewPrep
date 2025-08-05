@@ -49,3 +49,7 @@ class Solution {
         return ans;
     }
 };
+
+V -> no. of vertices, E -> no. of edges
+TC - O(V + E)
+SC - O(V) (recursion stack)
