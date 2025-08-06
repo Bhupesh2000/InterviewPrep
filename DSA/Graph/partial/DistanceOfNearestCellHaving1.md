@@ -38,9 +38,7 @@ Constraints:
 typedef pair<pair<int, int>, int> pii;
 class Solution {
   public:
-    // Function to find distance of nearest 1 in the grid for each cell.
     vector<vector<int>> nearest(vector<vector<int>>& grid) {
-        // Code here
         int n = grid.size(), m = grid[0].size();
         vector<vector<bool>> visited(n, vector<bool>(m, false));
         vector<vector<int>> res(n, vector<int>(m, 0));
