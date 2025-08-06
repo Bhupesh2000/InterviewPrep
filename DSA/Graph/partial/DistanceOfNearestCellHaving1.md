@@ -1,0 +1,86 @@
+/*
+Assignment 11 Q7
+https://www.geeksforgeeks.org/problems/distance-of-nearest-cell-having-1-1587115620/1
+
+Given a binary grid of n*m. Find the distance of the nearest 1 in the grid for each cell.
+The distance is calculated as |i1  - i2| + |j1 - j2|, where i1, j1 are the row number and column number of the current cell, and i2, j2 are the row number and column number of the nearest cell having value 1. There should be atleast one 1 in the grid.
+
+Examples
+Input: 
+grid = [[0,1,1,0], [1,1,0,0], [0,0,1,1]]
+Output: 
+[[1,0,0,1], [0,0,1,1], [1,1,0,0]]
+Explanation: 
+The grid is-
+0 1 1 0 
+1 1 0 0 
+0 0 1 1 
+- 0's at (0,0), (0,3), (1,2), (1,3), (2,0) and (2,1) are at a distance of 1 from 1's at (0,1), (0,2), (0,2), (2,3), (1,0) and (1,1) respectively.
+ 
+Input: 
+grid = [[1,0,1], [1,1,0], [1,0,0]]
+Output: 
+[[0,1,0], [0,0,1], [0,1,2]]
+Explanation: 
+The grid is-
+1 0 1
+1 1 0
+1 0 0
+- 0's at (0,1), (1,2), (2,1) and (2,2) are at a  distance of 1, 1, 1 and 2 from 1's at (0,0), (0,2), (2,0) and (1,1) respectively.
+ 
+Yout Task:
+You don't need to read or print anything, Your task is to complete the function nearest() which takes the grid as an input parameter and returns a matrix of the same dimensions where the value at index (i, j) in the resultant matrix signifies the minimum distance of 1 in the matrix from grid[i][j].
+
+Constraints:
+1 ≤ n, m ≤ 500
+*/
+
+typedef pair<pair<int, int>, int> pii;
+class Solution {
+  public:
+    // Function to find distance of nearest 1 in the grid for each cell.
+    vector<vector<int>> nearest(vector<vector<int>>& grid) {
+        // Code here
+        int n = grid.size(), m = grid[0].size();
+        vector<vector<bool>> visited(n, vector<bool>(m, false));
+        vector<vector<int>> res(n, vector<int>(m, 0));
+        queue<pii> q;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(grid[i][j] == 1){
+                    q.push({{i, j}, 0});
+                    visited[i][j] = true;
+                }
+            }
+        }
+        
+        while(!q.empty()){
+            pii A = q.front();
+            q.pop();
+            pair<int, int> coords = A.first;
+            int dist = A.second;
+            int i = coords.first, j = coords.second;
+            res[i][j] = dist;
+            if(i > 0 && grid[i - 1][j] == 0 && !visited[i - 1][j]){
+                q.push({{i - 1, j}, dist + 1});
+                visited[i - 1][j] = true;
+            }
+            if(j > 0 && grid[i][j - 1] == 0 && !visited[i][j - 1]){
+                q.push({{i, j - 1}, dist + 1});
+                visited[i][j - 1] = true;
+            }
+            if(i < n - 1 && grid[i + 1][j] == 0 && !visited[i + 1][j]){
+                q.push({{i + 1, j}, dist + 1});
+                visited[i + 1][j] = true;
+            }
+            if(j < m - 1 && grid[i][j + 1] == 0 && !visited[i][j + 1]){
+                q.push({{i, j + 1}, dist + 1});
+                visited[i][j + 1] = true;
+            }
+        }
+        
+        return res;
+    }
+};
+
+TC - O(n * m), SC - O(n * m)
