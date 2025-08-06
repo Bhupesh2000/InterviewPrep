@@ -43,7 +43,7 @@ class Solution {
     vector<int> dfs(vector<vector<int>>& adj) {
         // Code here
         int n = adj.size();
-        vector<int> visited(n, false);
+        vector<int> visited(n, false); // try with a set
         vector<int> ans;
         dfs(0, adj, visited, ans);
         return ans;
