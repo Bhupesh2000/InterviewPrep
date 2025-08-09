@@ -63,20 +63,83 @@ public:
 };
 
 int main() {
-    // Write C++ code here
     DisjointSet ds(7);
     ds.unionByRank(1, 2);
     ds.unionByRank(2, 3);
     ds.unionByRank(4, 5);
     ds.unionByRank(6, 7);
     ds.unionByRank(5, 6);
-    if(ds.findUPar(3) == ds.findUPar(7)){
+    if(ds.findUPar(3) == ds.findUPar(7)){ // Not same
         cout << "Same" << endl;
     }
     else cout << "Not Same" << endl;
     ds.unionByRank(2, 5);
-    if(ds.findUPar(3) == ds.findUPar(7)){
+    if(ds.findUPar(3) == ds.findUPar(7)){ // Same
         cout << "Same" << endl;
     }
     else cout << "Not Same" << endl;
 }
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Union By Size
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class DisjointSet{
+    vector<int> parent, size;
+public:
+    DisjointSet(int n){
+        size.resize(n + 1, 0);
+        parent.resize(n + 1);
+        for(int i = 0; i <= n; i++){
+            parent[i] = i;
+        }
+    }
+    
+    int findUPar(int node){
+        if(node == parent[node]) return node;
+        // return findUParent(parent[node]); -> will take logN
+        return parent[node] = findUPar(parent[node]); // path compression
+    }
+    
+    void unionBySize(int u, int v){
+        int ulp_u = findUPar(u);
+        int ulp_v = findUPar(v);
+        if(ulp_u == ulp_v) return;
+        
+        if(size[ulp_u] < size[ulp_v]){
+            parent[ulp_u] = ulp_v;
+            size[ulp_v] += size[ulp_u];
+        }
+        else{
+            parent[ulp_v] = ulp_u;
+            size[ulp_u] += size[ulp_v];
+        }
+    }
+    
+};
+
+int main() {
+    DisjointSet ds(7);
+    ds.unionBySize(1, 2);
+    ds.unionBySize(2, 3);
+    ds.unionBySize(4, 5);
+    ds.unionBySize(6, 7);
+    ds.unionBySize(5, 6);
+    if(ds.findUPar(3) == ds.findUPar(7)){  // Not same
+        cout << "Same" << endl;
+    }
+    else cout << "Not Same" << endl;
+    ds.unionBySize(2, 5);
+    if(ds.findUPar(3) == ds.findUPar(7)){ // Same
+        cout << "Same" << endl;
+    }
+    else cout << "Not Same" << endl;
+}
+
+
+Time Complexities -
+findUPar = unionBySize = unionByRank -> O(4α) ≃ constant time
+Long mathematical derivation for this. Not required in interviews
