@@ -71,3 +71,71 @@ O(V + E)
 ✅ **Final:**
 * **Time Complexity:** `O(E log V)`
 * **Space Complexity:** `O(V + E)`
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+bool customComparison(vector<int> a, vector<int> b)
+{
+    return a[2] < b[2]; // it sorts in ascending order
+}
+
+class DisjointSet{
+    vector<int> parent, rank;
+public:
+    DisjointSet(int n){
+        rank.resize(n + 1, 0);
+        parent.resize(n + 1);
+        for(int i = 0; i <= n; i++){
+            parent[i] = i;
+        }
+    }
+    
+    int findUPar(int node){
+        if(node == parent[node]) return node;
+        // return findUParent(parent[node]); -> will take logN
+        return parent[node] = findUPar(parent[node]); // path compression
+    }
+    
+    void unionByRank(int u, int v){
+        int ulp_u = findUPar(u);
+        int ulp_v = findUPar(v);
+        if(ulp_u == ulp_v) return;
+        
+        if(rank[ulp_u] < rank[ulp_v]){
+            parent[ulp_u] = ulp_v;
+        }
+        else if(rank[ulp_v] < rank[ulp_u]){
+            parent[ulp_v] = ulp_u;
+        }
+        else{
+            parent[ulp_v] = ulp_u;
+            rank[ulp_u] ++;
+        }
+    }
+    
+};
+
+class Solution {
+  public:
+    int kruskalsMST(int V, vector<vector<int>> &edges) {
+        // E no. of edges
+        // ElogE;
+        sort(edges.begin(), edges.end(), customComparison);
+        vector<pair<int, int>> MST;
+        int sum = 0;
+        DisjointSet ds(V);
+        // E * 4 * alpha * 2 (*2 because undirected)
+        for(auto edge : edges){
+            int edge1 = edge[0], edge2 = edge[1];
+            if(ds.findUPar(edge1) != ds.findUPar(edge2)){
+                sum += edge[2];
+                MST.push_back({edge1, edge2});
+                ds.unionByRank(edge1, edge2);
+            }
+        }
+        return sum;
+    }
+};
+
+TC - ElogE + E * 4 * alpha * 2
+SC - E * 4 * alpha * 2
