@@ -6,6 +6,7 @@ Few valid Topological orders for the given graph are:
 [1, 2, 3, 0]
 [2, 3, 1, 0]
 
+Approach 1 - Topological Sorting DFS
 class Solution {
     void createAdj(vector<vector<int>>& edges, vector<vector<int>>& adj){
         for(auto it : edges){
@@ -39,3 +40,35 @@ class Solution {
         return ans;
     }
 };
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Approach 2 - Topological Sort BFS(Kahn's Algorithm)
+Will use the concept of Indegree (no. of incoming edges to a node)
+#include <bits/stdc++.h>
+void createAdj(vector<vector<int>> &edges, vector<vector<int>> &adj, vector<int> &inorder){
+    for(auto i : edges){
+        adj[i[0]].push_back(i[1]);
+        inorder[i[1]] ++;
+    }
+}
+vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)  {
+    vector<vector<int>> adj(v);
+    vector<int> inorder(v, 0);
+    createAdj(edges, adj, inorder);
+    queue<int> q;
+    for(int i = 0; i < v; i++){
+        if(inorder[i] == 0) q.push(i);
+    }
+    vector<int> ans;
+    while(!q.empty()){
+        int node = q.front();
+        ans.push_back(node);
+        q.pop();
+        for(auto i : adj[node]){
+            inorder[i] --;
+            if(inorder[i] == 0) q.push(i);
+        }
+    }
+    return ans;
+}
