@@ -36,33 +36,33 @@ class Solution {
         return adj;
     }
 
-bool isCyclePresentBFS(int n, vector<vector<int>>& adj){
-    vector<int> indegree(n, 0);
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < adj[i].size(); j++){
-            indegree[adj[i][j]] ++;
+    bool isCyclePresentBFS(int n, vector<vector<int>>& adj){
+        vector<int> indegree(n, 0);
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < adj[i].size(); j++){
+                indegree[adj[i][j]] ++;
+            }
         }
-    }
 
-    queue<int> q;
-    int count = 0;
+        queue<int> q;
+        int count = 0;
 
-    for(int i = 0; i < n; i++)
-        if(indegree[i] == 0) q.push(i);
+        for(int i = 0; i < n; i++)
+            if(indegree[i] == 0) q.push(i);
 
-    while(!q.empty()){
-        int front = q.front();
-        q.pop();
-        count ++;
-        for(int i = 0; i < adj[front].size(); i++){
-            int index = adj[front][i];
-            indegree[index] --;
-            if(indegree[index] == 0) q.push(index);
+        while(!q.empty()){
+            int front = q.front();
+            q.pop();
+            count ++;
+            for(int i = 0; i < adj[front].size(); i++){
+                int index = adj[front][i];
+                indegree[index] --;
+                if(indegree[index] == 0) q.push(index);
+            }
         }
-    }
 
-    return count != n;
-}
+        return count != n;
+    }
 
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
