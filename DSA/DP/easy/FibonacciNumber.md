@@ -73,7 +73,7 @@ TC - O(n), SC - O(n)
 
 --------------------------------------------------------------------------------------------------------------------------------------------
 
-Approach 3 - dp with space optimisation
+Approach 4 - dp with space optimisation
 class Solution {
 public:
     int fib(int n) {
