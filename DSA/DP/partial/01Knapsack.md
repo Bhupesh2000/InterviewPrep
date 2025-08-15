@@ -62,7 +62,7 @@ Tc - O(N * W), SC - O(N * W + N)
 
 --------------------------------------------------------------------------------------------------------------------------------------------
 
-Approach 3 - DP
+Approach 3 - Tabulation
 class Solution {
   public:
     int knapsack(int W, vector<int> &val, vector<int> &wt) {

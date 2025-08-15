@@ -74,7 +74,7 @@ TC - O(n), SC - O(2n)
 
 --------------------------------------------------------------------------------------------------------------------------------------------
 
-Approach 3 - DP
+Approach 3 - Tabulation
 class Solution {
   public:
     int maximumPoints(vector<vector<int>>& arr) {
