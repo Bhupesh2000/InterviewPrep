@@ -63,3 +63,60 @@ public:
         return maxGap;
     }
 };
+
+********************************************************************************************************************************************
+
+class Solution {
+    int getMax(vector<int>& nums){
+        int n = nums.size();
+        int maxN = nums[0];
+        for (int i = 1; i < n; i++) {
+            maxN = max(maxN, nums[i]);
+        }
+        return maxN;
+    }
+
+    void countSort(vector<int>& nums, int m, long long exp){
+        int n = nums.size();
+        vector<int> output(n);
+        int count[10] = {0};;
+        for(int i = 0; i < n; i++){
+            int digit = (nums[i] / exp) % 10;
+            count[digit] ++;
+        }
+
+        for(int i = 1; i < 10; i++){
+            count[i] += count[i - 1];
+        }
+        
+        for(int i = n - 1; i >= 0; i--){
+            int digit = (nums[i] / exp) % 10;
+            output[count[digit] - 1] = nums[i];
+            count[digit] --;
+        }
+        
+        for(int i = 0; i < n; i++){
+            nums[i] = output[i];
+        }
+    }
+
+    void radixSort(vector<int>& nums) {
+        // code here
+        int n = nums.size();
+        int m = getMax(nums);
+        for(long long exp = 1; m / exp > 0; exp *= 10){
+            countSort(nums, m, exp);
+        }
+    }
+
+public:
+    int maximumGap(vector<int>& nums) {
+        radixSort(nums);
+        int maxDiff = 0;
+        int n = nums.size();
+        for(int i = n - 2; i >= 0; i--){
+            maxDiff = max(maxDiff, nums[i + 1] - nums[i]);
+        }
+        return maxDiff;
+    }
+};

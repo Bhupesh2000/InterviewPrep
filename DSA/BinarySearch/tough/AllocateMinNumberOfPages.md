@@ -80,4 +80,4 @@ int Solution::books(vector<int> &A, int B) {
             end = mid - 1;
         }
         else start = mid + 1;
-    }
+    }}
