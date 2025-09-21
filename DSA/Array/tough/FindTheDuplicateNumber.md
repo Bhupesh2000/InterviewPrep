@@ -1,4 +1,5 @@
 /*
+Assignment - 3 Q18
 Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive.
 There is only one repeated number in nums, return this repeated number.
 You must solve the problem without modifying the array nums and using only constant extra space.
@@ -21,6 +22,8 @@ nums.length == n + 1
 1 <= nums[i] <= n
 All the integers in nums appear only once except for precisely one integer which appears two or more times.
 */
+
+for clear understanding of the concept, watch striver explanation, on how to check if the slow and fast pointer will always meet
 
 class Solution {
 public:
