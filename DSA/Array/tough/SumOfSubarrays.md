@@ -13,8 +13,8 @@ Expected Time Complexity: O(n)
 Expected Auxiliary Space: O(1)
 
 Constraints :
-1 ≤ arr.size() ≤ 106
-1 ≤ arr[i] ≤ 109
+1 ≤ arr.size() ≤ 10^6
+1 ≤ arr[i] ≤ 10^9
 */
 
 // User function template for C++
@@ -35,3 +35,17 @@ class Solution {
         return sum;
     }
 };
+
+Simpler version of above
+int subarraySum(vector<int>& arr) {
+    // code here
+    int sum = 0;
+    int n = arr.size();
+    for(int i = 0; i < n; i++){
+        sum += arr[i] * ((n - i) + (n - i) * i);
+    }
+    return sum;
+}
+Basically contribution of each element -
+1. (n - i) -> for all the subarrays starting from i
+2. (n - i) * i -> for all the subarrays starting before i and contaning element i
