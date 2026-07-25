@@ -77,3 +77,47 @@ public:
 };
 
 TC - O(N), SC - O(1)
+
+
+This approach works like CountNumberOfNiceSubarrays -> since nums is binary,
+the 1s play the role of "odd numbers" there. A subarray with sum == goal is
+a subarray with exactly `goal` ones in it. Collect the positions of the 1s
+(with -1 and n as sentinels), then for every window of `goal` consecutive
+ones, multiply the number of zeros available on the left (gap to previous
+one) by the number of zeros available on the right (gap to next one).
+goal == 0 needs to be handled separately - count all-zero runs using the
+C(len+1, 2) trick.
+
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        int n = nums.size();
+
+        if (goal == 0) {
+            int ans = 0, zeros = 0;
+            for (int x : nums) {
+                if (x == 0) zeros++;
+                else zeros = 0;
+                ans += zeros;
+            }
+            return ans;
+        }
+
+        vector<int> ones;
+        ones.push_back(-1);
+        for (int i = 0; i < n; i++)
+            if (nums[i] == 1) ones.push_back(i);
+        ones.push_back(n);
+
+        int m = ones.size() - 2;
+        int ans = 0;
+        for (int i = 1; i + goal - 1 <= m; i++) {
+            int left = ones[i] - ones[i - 1];
+            int right = ones[i + goal] - ones[i + goal - 1];
+            ans += left * right;
+        }
+        return ans;
+    }
+};
+
+TC - O(N), SC - O(N) for storing the positions of 1s
