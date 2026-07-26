@@ -1,0 +1,44 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# C/C++ build output
+*.o
+*.obj
+*.out
+*.exe
+*.app
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.gch
+*.pch
+*.d
+
+# Xcode / clang debug symbols
+*.dSYM/
+
+# Build directories
+build/
+bin/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+
+# Compiled binaries without an extension (produced by g++/clang++ -o)
+main
+a.out
+
+# Logs & temp
+*.log
+*.tmp
