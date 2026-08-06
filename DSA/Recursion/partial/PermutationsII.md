@@ -20,7 +20,7 @@ Constraints:
 */
 
 class Solution {
-    void permuteUnique(int index, vector<int>& current, vector<bool>& used, vector<int>& nums, vector<vector<int>>& ans){
+    void permuteUnique(vector<int>& current, vector<bool>& used, vector<int>& nums, vector<vector<int>>& ans){
         if(current.size() == nums.size()){
             ans.push_back(current);
             return;
@@ -28,9 +28,10 @@ class Solution {
 
         for(int i = 0; i < nums.size(); i++){
             if(used[i]) continue;
+            if(i != 0 && nums[i] == nums[i - 1] && !used[i]) continue;
             current.push_back(nums[i]);
             used[i] = true;
-            permuteUnique(i + 1, current, used, nums, ans);
+            permuteUnique(current, used, nums, ans);
             current.pop_back();
             used[i] = false;
         }
@@ -40,7 +41,7 @@ public:
         vector<vector<int>> ans;
         vector<int> current;
         vector<bool> used(nums.size(), false);
-        permuteUnique(0, current, used, nums, ans);
+        permuteUnique(current, used, nums, ans);
         return ans;
     }
 };
