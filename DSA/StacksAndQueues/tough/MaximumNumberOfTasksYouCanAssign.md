@@ -47,56 +47,47 @@ m == workers.length
 Sort both tasks and workers
 
 Perform binary search on number of tasks to assign
+    Each operation check if it can perform k number of tasks or not
 
     For each mid (candidate number of tasks):
 
         Use deque to keep tasks that can potentially be assigned (within boosted worker capability)
 
-        Traverse from strongest workers to weakest (right to left)
+        Consider only k strongest workers and k smallest task
 
         For each worker:
 
-        Try to assign the hardest task they can do without a pill (right end)
-
-        If not possible, try to use a pill to assign the easiest viable task (left end)
-
-        If neither works, return false
+        push all the tasks that can be done by this worker with pill
+        check if the first task can be performed by the worker without pill and complete that
+        if not, complete the hardest task that can be fulfilled by this worker with pill(if pill is available)
 
 
 class Solution {
 public:
-    // Checks if it's possible to assign `mid` tasks
-    bool canFinish(vector<int>& tasks, vector<int>& workers, int pills, int strength, int mid) {
+    bool canFinish(vector<int>& tasks, vector<int>& workers, int p, int strength, int k){
         deque<int> dq;
-        int t = mid - 1;  // index in tasks
-        int p = pills;
+        int i = 0;
 
-        // Add the hardest `mid` tasks into the deque (sorted in ascending)
-        for (int i = mid - 1; i >= 0; --i) {
-            dq.push_front(tasks[i]);
-        }
-
-        // Traverse the `mid` strongest workers (from end)
-        for (int i = workers.size() - 1; i >= workers.size() - mid; --i) {
-            int w = workers[i];
-
-            // Case 1: If worker can do the hardest remaining task without pill
-            if (!dq.empty() && dq.back() <= w) {
-                dq.pop_back(); // assign task
+        for(int j = workers.size() - k; j < workers.size(); j++){
+            int w = workers[j];
+            
+            //
+            while(i < k && tasks[i] <= w + strength){
+                dq.push_back(tasks[i]);
+                i ++;
             }
-            // Case 2: Try using a pill if worker + strength can handle easiest remaining task
-            else if (!dq.empty() && dq.front() <= w + strength) {
-                dq.pop_front(); // use pill
-                p--;
-                if (p < 0) return false; // no pills left
-            }
-            // Case 3: Cannot assign this worker any task
-            else {
-                return false;
+
+            if(dq.empty()) return false;
+
+            if(dq.front() <= w) dq.pop_front();
+            else{
+                if(p == 0) return false;
+                p --;
+                dq.pop_back();
             }
         }
 
-        return true; // All workers assigned a task
+        return dq.empty();
     }
 
     int maxTaskAssign(vector<int>& tasks, vector<int>& workers, int pills, int strength) {
